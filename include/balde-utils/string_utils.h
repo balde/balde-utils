@@ -21,6 +21,7 @@ typedef struct _b_string_t {
 
 char* b_strdup(const char *s);
 char* b_strndup(const char *s, size_t n);
+char* b_strdup_vprintf(const char *format, va_list ap);
 char* b_strdup_printf(const char *format, ...);
 bool b_str_starts_with(const char *str, const char *prefix);
 bool b_str_ends_with(const char *str, const char *suffix);
@@ -30,5 +31,6 @@ char* b_string_free(b_string_t *str, bool free_str);
 b_string_t* b_string_append_len(b_string_t *str, const char *suffix, size_t len);
 b_string_t* b_string_append(b_string_t *str, const char *suffix);
 b_string_t* b_string_append_c(b_string_t *str, char c);
+b_string_t* b_string_append_printf(b_string_t *str, const char *format, ...);
 
 #endif /* _BALDE_UTILS__STRING_UTILS_H */

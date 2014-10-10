@@ -269,6 +269,19 @@ test_string_append_c(void **state)
 }
 
 
+static void
+test_string_append_printf(void **state)
+{
+    b_string_t *str = b_string_new();
+    str = b_string_append_printf(str, "guda: %s %d", "bola", 1);
+    assert_non_null(str);
+    assert_string_equal(str->str, "guda: bola 1");
+    assert_int_equal(str->len, 12);
+    assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE);
+    assert_null(b_string_free(str, true));
+}
+
+
 int
 main(void)
 {
@@ -283,6 +296,7 @@ main(void)
         unit_test(test_string_append_len),
         unit_test(test_string_append),
         unit_test(test_string_append_c),
+        unit_test(test_string_append_printf),
     };
     return run_tests(tests);
 }

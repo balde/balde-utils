@@ -47,22 +47,31 @@ b_strndup(const char *s, size_t n)
 
 
 char*
-b_strdup_printf(const char *format, ...)
+b_strdup_vprintf(const char *format, va_list ap)
 {
-    va_list ap;
-    va_start(ap, format);
-    int l = vsnprintf(NULL, 0, format, ap);
-    va_end(ap);
+    va_list ap2;
+    va_copy(ap2, ap);
+    int l = vsnprintf(NULL, 0, format, ap2);
+    va_end(ap2);
     if (l < 0)
         return NULL;
     char *tmp = malloc(l + 1);
     if (!tmp)
         return NULL;
-    va_start(ap, format);
     int l2 = vsnprintf(tmp, l + 1, format, ap);
-    va_end(ap);
     if (l2 < 0)
         return NULL;
+    return tmp;
+}
+
+
+char*
+b_strdup_printf(const char *format, ...)
+{
+    va_list ap;
+    va_start(ap, format);
+    char *tmp = b_strdup_vprintf(format, ap);
+    va_end(ap);
     return tmp;
 }
 
@@ -150,5 +159,18 @@ b_string_append_c(b_string_t *str, char c)
     }
     str->str[old_len] = c;
     str->str[str->len] = '\0';
+    return str;
+}
+
+
+b_string_t*
+b_string_append_printf(b_string_t *str, const char *format, ...)
+{
+    va_list ap;
+    va_start(ap, format);
+    char *tmp = b_strdup_vprintf(format, ap);
+    va_end(ap);
+    str = b_string_append(str, tmp);
+    free(tmp);
     return str;
 }
