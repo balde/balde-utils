@@ -117,6 +117,17 @@ test_strv_join(void **state)
 
 
 static void
+test_strv_length(void **state)
+{
+    const char *pieces[] = {"guda","bola", "chunda", NULL};
+    assert_int_equal(b_strv_length(pieces), 3);
+    const char *pieces2[] = {NULL};
+    assert_int_equal(b_strv_length(pieces2), 0);
+    assert_int_equal(b_strv_length(NULL), 0);
+}
+
+
+static void
 test_string_new(void **state)
 {
     b_string_t *str = b_string_new();
@@ -331,6 +342,7 @@ main(void)
         unit_test(test_str_ends_with),
         unit_test(test_str_split),
         unit_test(test_strv_join),
+        unit_test(test_strv_length),
         unit_test(test_string_new),
         unit_test(test_string_free),
         unit_test(test_string_append_len),

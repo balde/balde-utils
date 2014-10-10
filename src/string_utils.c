@@ -226,3 +226,14 @@ b_strv_join(const char **strv, const char *separator)
     }
     return b_string_free(str, false);
 }
+
+
+unsigned int
+b_strv_length(const char **strv)
+{
+    if (!strv)
+        return 0;
+    unsigned int i;
+    for (i = 0; strv[i] != NULL; i++);
+    return i;
+}

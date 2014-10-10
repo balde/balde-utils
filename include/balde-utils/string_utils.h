@@ -28,6 +28,7 @@ bool b_str_ends_with(const char *str, const char *suffix);
 char** b_str_split(const char *str, char c, unsigned int max_pieces);
 void b_strv_free(char **strv);
 char* b_strv_join(const char **strv, const char *separator);
+unsigned int b_strv_length(const char **strv);
 
 b_string_t* b_string_new(void);
 char* b_string_free(b_string_t *str, bool free_str);
