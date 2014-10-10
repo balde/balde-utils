@@ -91,6 +91,19 @@ test_string_new(void **state)
 
 
 static void
+test_string_free(void **state)
+{
+    b_string_t *str = b_string_new();
+    str->str = b_strdup("bola");
+    str->len = 4;
+    str->allocated_len = B_STRING_CHUNK_SIZE;
+    char *tmp = b_string_free(str, false);
+    assert_string_equal(tmp, "bola");
+    free(tmp);
+}
+
+
+static void
 test_string_append_len(void **state)
 {
     b_string_t *str = b_string_new();
@@ -242,6 +255,7 @@ main(void)
         unit_test(test_str_starts_with),
         unit_test(test_str_ends_with),
         unit_test(test_string_new),
+        unit_test(test_string_free),
         unit_test(test_string_append_len),
         unit_test(test_string_append),
     };
