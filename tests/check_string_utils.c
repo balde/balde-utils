@@ -79,6 +79,44 @@ test_str_ends_with(void **state)
 
 
 static void
+test_str_split(void **state)
+{
+    char **strv = b_str_split("bola:guda:chunda", ':', 0);
+    assert_string_equal(strv[0], "bola");
+    assert_string_equal(strv[1], "guda");
+    assert_string_equal(strv[2], "chunda");
+    assert_null(strv[3]);
+    b_strv_free(strv);
+    strv = b_str_split("bola:guda:chunda", ':', 2);
+    assert_string_equal(strv[0], "bola");
+    assert_string_equal(strv[1], "guda:chunda");
+    assert_null(strv[2]);
+    b_strv_free(strv);
+    strv = b_str_split("bola:guda:chunda", ':', 1);
+    assert_string_equal(strv[0], "bola:guda:chunda");
+    assert_null(strv[1]);
+    b_strv_free(strv);
+    strv = b_str_split("", ':', 1);
+    assert_null(strv[0]);
+    b_strv_free(strv);
+    assert_null(b_str_split(NULL, ':', 0));
+}
+
+
+static void
+test_strv_join(void **state)
+{
+    const char *pieces[] = {"guda","bola", "chunda", NULL};
+    char *str = b_strv_join(pieces, ":");
+    assert_string_equal(str, "guda:bola:chunda");
+    free(str);
+    const char *pieces2[] = {NULL};
+    assert_null(b_strv_join(pieces2, ":"));
+    assert_null(b_strv_join(NULL, ":"));
+}
+
+
+static void
 test_string_new(void **state)
 {
     b_string_t *str = b_string_new();
@@ -291,6 +329,8 @@ main(void)
         unit_test(test_strdup_printf),
         unit_test(test_str_starts_with),
         unit_test(test_str_ends_with),
+        unit_test(test_str_split),
+        unit_test(test_strv_join),
         unit_test(test_string_new),
         unit_test(test_string_free),
         unit_test(test_string_append_len),

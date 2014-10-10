@@ -174,3 +174,55 @@ b_string_append_printf(b_string_t *str, const char *format, ...)
     free(tmp);
     return str;
 }
+
+
+char**
+b_str_split(const char *str, char c, unsigned int max_pieces)
+{
+    if (!str)
+        return NULL;
+    char **rv = malloc(sizeof(char*));
+    unsigned int i, start = 0, count = 0;
+    for (i = 0; i < strlen(str) + 1; i++) {
+        if (str[0] == '\0')
+            break;
+        if ((str[i] == c && (!max_pieces || count + 1 < max_pieces)) || str[i] == '\0') {
+            rv = realloc(rv, (count + 1) * sizeof(char*));
+            rv[count] = malloc(i - start + 1);
+            memcpy(rv[count], str + start, i - start);
+            rv[count++][i - start] = '\0';
+            start = i + 1;
+        }
+    }
+    rv = realloc(rv, (count + 1) * sizeof(char*));
+    rv[count] = NULL;
+    return rv;
+}
+
+
+void
+b_strv_free(char **strv)
+{
+    if (strv == NULL)
+        return;
+    unsigned int i;
+    for (i = 0; strv[i] != NULL; i++)
+        free(strv[i]);
+    free(strv);
+}
+
+
+char*
+b_strv_join(const char **strv, const char *separator)
+{
+    if (strv == NULL)
+        return NULL;
+    unsigned int i = 0;
+    b_string_t *str = b_string_new();
+    for (i = 0; strv[i] != NULL; i++) {
+        str = b_string_append(str, strv[i]);
+        if (strv[i+1] != NULL)
+            str = b_string_append(str, separator);
+    }
+    return b_string_free(str, false);
+}
