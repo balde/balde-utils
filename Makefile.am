@@ -24,7 +24,8 @@ include_HEADERS = \
 	include/balde-utils.h
 
 pkginclude_HEADERS = \
-	include/balde-utils/string_utils.h
+	include/balde-utils/string_utils.h \
+	include/balde-utils/slist.h
 
 noinst_HEADERS =
 
@@ -44,7 +45,8 @@ pkgconfig_DATA = balde-utils.pc
 ## Build rules: libbalde_utils
 
 src_libbalde_utils_la_SOURCES = \
-	src/string_utils.c
+	src/string_utils.c \
+	src/slist.c
 
 src_libbalde_utils_la_CFLAGS = \
 	$(AM_CFLAGS) \
@@ -82,7 +84,8 @@ endif
 if USE_CMOCKA
 
 check_PROGRAMS += \
-	tests/check_string_utils
+	tests/check_string_utils \
+	tests/check_slist
 
 tests_check_string_utils_SOURCES = \
 	tests/check_string_utils.c
@@ -95,6 +98,20 @@ tests_check_string_utils_LDFLAGS = \
 	-no-install
 
 tests_check_string_utils_LDADD = \
+	$(CMOCKA_LIBS) \
+	src/libbalde_utils.la
+
+tests_check_slist_SOURCES = \
+	tests/check_slist.c
+
+tests_check_slist_CFLAGS = \
+	$(CMOCKA_CFLAGS) \
+	-I$(top_srcdir)/include
+
+tests_check_slist_LDFLAGS = \
+	-no-install
+
+tests_check_slist_LDADD = \
 	$(CMOCKA_LIBS) \
 	src/libbalde_utils.la
 
