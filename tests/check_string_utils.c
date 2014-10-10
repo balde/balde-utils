@@ -79,6 +79,19 @@ test_str_ends_with(void **state)
 
 
 static void
+test_str_strip(void **state)
+{
+    char *str = b_strdup("  \tbola\n  \t");
+    assert_string_equal(b_str_strip(str), "bola");
+    free(str);
+    str = b_strdup("guda");
+    assert_string_equal(b_str_strip(str), "guda");
+    free(str);
+    assert_null(b_str_strip(NULL));
+}
+
+
+static void
 test_str_split(void **state)
 {
     char **strv = b_str_split("bola:guda:chunda", ':', 0);
@@ -340,6 +353,7 @@ main(void)
         unit_test(test_strdup_printf),
         unit_test(test_str_starts_with),
         unit_test(test_str_ends_with),
+        unit_test(test_str_strip),
         unit_test(test_str_split),
         unit_test(test_strv_join),
         unit_test(test_strv_length),

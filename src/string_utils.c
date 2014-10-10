@@ -6,6 +6,7 @@
  * See the file COPYING.
  */
 
+#include <ctype.h>
 #include <string.h>
 #include <stdarg.h>
 #include <stdbool.h>
@@ -95,6 +96,30 @@ b_str_ends_with(const char *str, const char *suffix)
     if (str_ls > str_l)
         return false;
     return strcmp(str + str_l - str_ls, suffix) == 0;
+}
+
+
+char*
+b_str_strip(char *str)
+{
+    if (str == NULL)
+        return str;
+    unsigned int i;
+    size_t str_len = strlen(str);
+    for (i = str_len - 1; i >= 0; i--) {
+        if (!isspace(str[i])) {
+            str[i + 1] = '\0';
+            break;
+        }
+    }
+    str_len = strlen(str);
+    for (i = 0; i < str_len; i++) {
+        if (!isspace(str[i])) {
+            str = str + i;
+            break;
+        }
+    }
+    return str;
 }
 
 
