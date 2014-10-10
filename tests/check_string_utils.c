@@ -22,6 +22,25 @@ test_strdup(void **state)
     char *str = b_strdup("bola");
     assert_string_equal(str, "bola");
     free(str);
+    str = b_strdup(NULL);
+    assert_null(str);
+}
+
+
+static void
+test_strndup(void **state)
+{
+    char *str = b_strndup("bolaguda", 4);
+    assert_string_equal(str, "bola");
+    free(str);
+    str = b_strndup("bolaguda", 30);
+    assert_string_equal(str, "bolaguda");
+    free(str);
+    str = b_strndup("bolaguda", 8);
+    assert_string_equal(str, "bolaguda");
+    free(str);
+    str = b_strdup(NULL);
+    assert_null(str);
 }
 
 
@@ -30,6 +49,7 @@ main(void)
 {
     const UnitTest tests[] = {
         unit_test(test_strdup),
+        unit_test(test_strndup),
     };
     return run_tests(tests);
 }

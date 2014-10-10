@@ -10,5 +10,6 @@
 #define _BALDE_UTILS__STRING_UTILS_H
 
 char* b_strdup(const char *s);
+char* b_strndup(const char *s, size_t n);
 
 #endif /* _BALDE_UTILS__STRING_UTILS_H */

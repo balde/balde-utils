@@ -15,12 +15,29 @@
 char*
 b_strdup(const char *s)
 {
-    void* bola = malloc(1024);
-    char *tmp = (char*) malloc(sizeof(char) * (strlen(s) + 1));
-    unsigned int i;
-    for (i = 0; i < strlen(s); i++) {
-        tmp[i] = s[i];
-    }
-    tmp[i] = '\0';
+    if (!s)
+        return NULL;
+    size_t l = strlen(s);
+    char *tmp = malloc(l + 1);
+    if (!tmp)
+        return NULL;
+    memcpy(tmp, s, l + 1);
+    return tmp;
+}
+
+
+char*
+b_strndup(const char *s, size_t n)
+{
+    if (!s)
+        return NULL;
+    size_t l = strlen(s);
+    if (l > n)
+        l = n;
+    char *tmp = malloc(l + 1);
+    if (!tmp)
+        return NULL;
+    memcpy(tmp, s, l + 1);
+    tmp[l] = '\0';
     return tmp;
 }
