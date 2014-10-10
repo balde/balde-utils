@@ -28,5 +28,6 @@ bool b_str_ends_with(const char *str, const char *suffix);
 b_string_t* b_string_new(void);
 char* b_string_free(b_string_t *str, bool free_str);
 b_string_t* b_string_append_len(b_string_t *str, const char *suffix, size_t len);
+b_string_t* b_string_append(b_string_t *str, const char *suffix);
 
 #endif /* _BALDE_UTILS__STRING_UTILS_H */

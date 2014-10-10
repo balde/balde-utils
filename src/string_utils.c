@@ -116,6 +116,8 @@ b_string_free(b_string_t *str, bool free_str)
 b_string_t*
 b_string_append_len(b_string_t *str, const char *suffix, size_t len)
 {
+    if (suffix == NULL)
+        return str;
     size_t old_len = str->len;
     str->len += len;
     if (str->len + 1 > str->allocated_len) {
@@ -125,4 +127,13 @@ b_string_append_len(b_string_t *str, const char *suffix, size_t len)
     memcpy(str->str + old_len, suffix, len);
     str->str[str->len] = '\0';
     return str;
+}
+
+
+b_string_t*
+b_string_append(b_string_t *str, const char *suffix)
+{
+    if (suffix == NULL)
+        return str;
+    return b_string_append_len(str, suffix, strlen(suffix));
 }

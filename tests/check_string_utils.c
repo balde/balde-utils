@@ -109,6 +109,14 @@ test_string_append_len(void **state)
     assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE);
     assert_null(b_string_free(str, true));
     str = b_string_new();
+    str = b_string_append_len(str, "guda", 3);
+    str = b_string_append_len(str, "bola", 4);
+    assert_non_null(str);
+    assert_string_equal(str->str, "gudbola");
+    assert_int_equal(str->len, 7);
+    assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE);
+    assert_null(b_string_free(str, true));
+    str = b_string_new();
     str = b_string_append_len(str, "guda", 4);
     str = b_string_append_len(str,
         "cwlwmwxxmvjnwtidmjehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjidzkcw"
@@ -120,6 +128,7 @@ test_string_append_len(void **state)
         "dxntikgoqlidfnmdhxzevqzlzubvyleeksdirmmttqthhkvfjggznpmarcamacpvwsrnr"
         "ftzfeyasjpxoevyptpdnqokswiondusnuymqwaryrmdgscbnuilxtypuynckancsfnwtg"
         "okxhegoifakimxbbafkeannglvsxprqzfekdinssqymtfexf", 600);
+    str = b_string_append_len(str, NULL, 0);
     str = b_string_append_len(str,
         "cwlwmwxxmvjnwtidmjehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjidzkcw"
         "nnqhxhneolbwqlctcxmrsutolrjikpavxombpfpjyaqltgvzrjidotalcuwrwxtaxjiwa"
@@ -130,6 +139,73 @@ test_string_append_len(void **state)
         "dxntikgoqlidfnmdhxzevqzlzubvyleeksdirmmttqthhkvfjggznpmarcamacpvwsrnr"
         "ftzfeyasjpxoevyptpdnqokswiondusnuymqwaryrmdgscbnuilxtypuynckancsfnwtg"
         "okxhegoifakimxbbafkeannglvsxprqzfekdinssqymtfexf", 600);
+    assert_non_null(str);
+    assert_string_equal(str->str,
+        "gudacwlwmwxxmvjnwtidmjehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjid"
+        "zkcwnnqhxhneolbwqlctcxmrsutolrjikpavxombpfpjyaqltgvzrjidotalcuwrwxtax"
+        "jiwaxfhfyzymtffusoqywaruxpybwggukltspqqmghzpqstvcvlqbkhquihzndnrvkaqv"
+        "evazdxrewtgapkompnviiyielanoyowgqhssntyvcvqqtfjmkphywbkvzfyttaalttywh"
+        "qcechgrwzaglzogwjvqncjzodaqsblcbpcdpxmrtctzginvtkckhqvdplgjvbzrnarcxj"
+        "rsbcsbfvpylgjznsuhxcxoqbpxowmsrgwimxjgyzwwmryqvstwzkglgeezelvpvkwefqd"
+        "atnddxntikgoqlidfnmdhxzevqzlzubvyleeksdirmmttqthhkvfjggznpmarcamacpvw"
+        "srnrftzfeyasjpxoevyptpdnqokswiondusnuymqwaryrmdgscbnuilxtypuynckancsf"
+        "nwtgokxhegoifakimxbbafkeannglvsxprqzfekdinssqymtfexfcwlwmwxxmvjnwtidm"
+        "jehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjidzkcwnnqhxhneolbwqlctc"
+        "xmrsutolrjikpavxombpfpjyaqltgvzrjidotalcuwrwxtaxjiwaxfhfyzymtffusoqyw"
+        "aruxpybwggukltspqqmghzpqstvcvlqbkhquihzndnrvkaqvevazdxrewtgapkompnvii"
+        "yielanoyowgqhssntyvcvqqtfjmkphywbkvzfyttaalttywhqcechgrwzaglzogwjvqnc"
+        "jzodaqsblcbpcdpxmrtctzginvtkckhqvdplgjvbzrnarcxjrsbcsbfvpylgjznsuhxcx"
+        "oqbpxowmsrgwimxjgyzwwmryqvstwzkglgeezelvpvkwefqdatnddxntikgoqlidfnmdh"
+        "xzevqzlzubvyleeksdirmmttqthhkvfjggznpmarcamacpvwsrnrftzfeyasjpxoevypt"
+        "pdnqokswiondusnuymqwaryrmdgscbnuilxtypuynckancsfnwtgokxhegoifakimxbba"
+        "fkeannglvsxprqzfekdinssqymtfexf");
+    assert_int_equal(str->len, 1204);
+    assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE * 10);
+    assert_null(b_string_free(str, true));
+}
+
+
+static void
+test_string_append(void **state)
+{
+    b_string_t *str = b_string_new();
+    str = b_string_append(str, "guda");
+    assert_non_null(str);
+    assert_string_equal(str->str, "guda");
+    assert_int_equal(str->len, 4);
+    assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE);
+    assert_null(b_string_free(str, true));
+    str = b_string_new();
+    str = b_string_append(str, "guda");
+    str = b_string_append(str, "bola");
+    assert_non_null(str);
+    assert_string_equal(str->str, "gudabola");
+    assert_int_equal(str->len, 8);
+    assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE);
+    assert_null(b_string_free(str, true));
+    str = b_string_new();
+    str = b_string_append(str, "guda");
+    str = b_string_append(str,
+        "cwlwmwxxmvjnwtidmjehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjidzkcw"
+        "nnqhxhneolbwqlctcxmrsutolrjikpavxombpfpjyaqltgvzrjidotalcuwrwxtaxjiwa"
+        "xfhfyzymtffusoqywaruxpybwggukltspqqmghzpqstvcvlqbkhquihzndnrvkaqvevaz"
+        "dxrewtgapkompnviiyielanoyowgqhssntyvcvqqtfjmkphywbkvzfyttaalttywhqcec"
+        "hgrwzaglzogwjvqncjzodaqsblcbpcdpxmrtctzginvtkckhqvdplgjvbzrnarcxjrsbc"
+        "sbfvpylgjznsuhxcxoqbpxowmsrgwimxjgyzwwmryqvstwzkglgeezelvpvkwefqdatnd"
+        "dxntikgoqlidfnmdhxzevqzlzubvyleeksdirmmttqthhkvfjggznpmarcamacpvwsrnr"
+        "ftzfeyasjpxoevyptpdnqokswiondusnuymqwaryrmdgscbnuilxtypuynckancsfnwtg"
+        "okxhegoifakimxbbafkeannglvsxprqzfekdinssqymtfexf");
+    str = b_string_append(str, NULL);
+    str = b_string_append(str,
+        "cwlwmwxxmvjnwtidmjehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjidzkcw"
+        "nnqhxhneolbwqlctcxmrsutolrjikpavxombpfpjyaqltgvzrjidotalcuwrwxtaxjiwa"
+        "xfhfyzymtffusoqywaruxpybwggukltspqqmghzpqstvcvlqbkhquihzndnrvkaqvevaz"
+        "dxrewtgapkompnviiyielanoyowgqhssntyvcvqqtfjmkphywbkvzfyttaalttywhqcec"
+        "hgrwzaglzogwjvqncjzodaqsblcbpcdpxmrtctzginvtkckhqvdplgjvbzrnarcxjrsbc"
+        "sbfvpylgjznsuhxcxoqbpxowmsrgwimxjgyzwwmryqvstwzkglgeezelvpvkwefqdatnd"
+        "dxntikgoqlidfnmdhxzevqzlzubvyleeksdirmmttqthhkvfjggznpmarcamacpvwsrnr"
+        "ftzfeyasjpxoevyptpdnqokswiondusnuymqwaryrmdgscbnuilxtypuynckancsfnwtg"
+        "okxhegoifakimxbbafkeannglvsxprqzfekdinssqymtfexf");
     assert_non_null(str);
     assert_string_equal(str->str,
         "gudacwlwmwxxmvjnwtidmjehzdeexbxjnjowruxjrqpgpfhmvwgqeacdjissntmbtsjid"
@@ -167,6 +243,7 @@ main(void)
         unit_test(test_str_ends_with),
         unit_test(test_string_new),
         unit_test(test_string_append_len),
+        unit_test(test_string_append),
     };
     return run_tests(tests);
 }
