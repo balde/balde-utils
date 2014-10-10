@@ -56,6 +56,28 @@ test_strdup_printf(void **state)
 }
 
 
+static void
+test_str_starts_with(void **state)
+{
+    assert_true(b_str_starts_with("bolaguda", "bola"));
+    assert_true(b_str_starts_with("bola", "bola"));
+    assert_false(b_str_starts_with("gudabola", "bola"));
+    assert_false(b_str_starts_with("guda", "bola"));
+    assert_false(b_str_starts_with("bola", "bolaguda"));
+}
+
+
+static void
+test_str_ends_with(void **state)
+{
+    assert_true(b_str_ends_with("bolaguda", "guda"));
+    assert_true(b_str_ends_with("bola", "bola"));
+    assert_false(b_str_ends_with("gudabola", "guda"));
+    assert_false(b_str_ends_with("guda", "bola"));
+    assert_false(b_str_ends_with("bola", "gudabola"));
+}
+
+
 int
 main(void)
 {
@@ -63,6 +85,8 @@ main(void)
         unit_test(test_strdup),
         unit_test(test_strndup),
         unit_test(test_strdup_printf),
+        unit_test(test_str_starts_with),
+        unit_test(test_str_ends_with),
     };
     return run_tests(tests);
 }

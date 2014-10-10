@@ -8,6 +8,7 @@
 
 #include <string.h>
 #include <stdarg.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -63,4 +64,26 @@ b_strdup_printf(const char *format, ...)
     if (l2 < 0)
         return NULL;
     return tmp;
+}
+
+
+bool
+b_str_starts_with(const char *str, const char *prefix)
+{
+    int str_l = strlen(str);
+    int str_lp = strlen(prefix);
+    if (str_lp > str_l)
+        return false;
+    return strncmp(str, prefix, str_lp) == 0;
+}
+
+
+bool
+b_str_ends_with(const char *str, const char *suffix)
+{
+    int str_l = strlen(str);
+    int str_ls = strlen(suffix);
+    if (str_ls > str_l)
+        return false;
+    return strcmp(str + str_l - str_ls, suffix) == 0;
 }
