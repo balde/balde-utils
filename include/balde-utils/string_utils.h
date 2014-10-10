@@ -11,10 +11,22 @@
 
 #include <stdbool.h>
 
+#define B_STRING_CHUNK_SIZE 128
+
+typedef struct _b_string_t {
+    char *str;
+    size_t len;
+    size_t allocated_len;
+} b_string_t;
+
 char* b_strdup(const char *s);
 char* b_strndup(const char *s, size_t n);
 char* b_strdup_printf(const char *format, ...);
 bool b_str_starts_with(const char *str, const char *prefix);
 bool b_str_ends_with(const char *str, const char *suffix);
+
+b_string_t* b_string_new(void);
+char* b_string_free(b_string_t *str, bool free_str);
+b_string_t* b_string_append_len(b_string_t *str, const char *suffix, size_t len);
 
 #endif /* _BALDE_UTILS__STRING_UTILS_H */

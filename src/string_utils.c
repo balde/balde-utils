@@ -87,3 +87,42 @@ b_str_ends_with(const char *str, const char *suffix)
         return false;
     return strcmp(str + str_l - str_ls, suffix) == 0;
 }
+
+
+b_string_t*
+b_string_new(void)
+{
+    b_string_t* rv = malloc(sizeof(b_string_t));
+    rv->str = NULL;
+    rv->len = 0;
+    rv->allocated_len = 0;
+    return rv;
+}
+
+
+char*
+b_string_free(b_string_t *str, bool free_str)
+{
+    char *rv = NULL;
+    if (free_str)
+        free(str->str);
+    else
+        rv = str->str;
+    free(str);
+    return rv;
+}
+
+
+b_string_t*
+b_string_append_len(b_string_t *str, const char *suffix, size_t len)
+{
+    size_t old_len = str->len;
+    str->len += len;
+    if (str->len + 1 > str->allocated_len) {
+        str->allocated_len = (((str->len + 1) / B_STRING_CHUNK_SIZE) + 1) * B_STRING_CHUNK_SIZE;
+        str->str = realloc(str->str, str->allocated_len);
+    }
+    memcpy(str->str + old_len, suffix, len);
+    str->str[str->len] = '\0';
+    return str;
+}
