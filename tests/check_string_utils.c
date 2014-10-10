@@ -44,12 +44,25 @@ test_strndup(void **state)
 }
 
 
+static void
+test_strdup_printf(void **state)
+{
+    char *str = b_strdup_printf("bola");
+    assert_string_equal(str, "bola");
+    free(str);
+    str = b_strdup_printf("bola, %s", "guda");
+    assert_string_equal(str, "bola, guda");
+    free(str);
+}
+
+
 int
 main(void)
 {
     const UnitTest tests[] = {
         unit_test(test_strdup),
         unit_test(test_strndup),
+        unit_test(test_strdup_printf),
     };
     return run_tests(tests);
 }

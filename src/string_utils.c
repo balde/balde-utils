@@ -7,6 +7,8 @@
  */
 
 #include <string.h>
+#include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include <balde-utils/string_utils.h>
@@ -39,5 +41,26 @@ b_strndup(const char *s, size_t n)
         return NULL;
     memcpy(tmp, s, l + 1);
     tmp[l] = '\0';
+    return tmp;
+}
+
+
+char*
+b_strdup_printf(const char *format, ...)
+{
+    va_list ap;
+    va_start(ap, format);
+    int l = vsnprintf(NULL, 0, format, ap);
+    va_end(ap);
+    if (l < 0)
+        return NULL;
+    char *tmp = malloc(l + 1);
+    if (!tmp)
+        return NULL;
+    va_start(ap, format);
+    int l2 = vsnprintf(tmp, l + 1, format, ap);
+    va_end(ap);
+    if (l2 < 0)
+        return NULL;
     return tmp;
 }
