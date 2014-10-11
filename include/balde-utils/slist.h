@@ -15,7 +15,7 @@ typedef struct _b_slist_t {
 } b_slist_t;
 
 b_slist_t* b_slist_append(b_slist_t *l, void *data);
-void b_slist_free_full(b_slist_t *l, void free_func(void *ptr));
+void b_slist_free_full(b_slist_t *l, void (*free_func)(void *ptr));
 void b_slist_free(b_slist_t *l);
 unsigned int b_slist_length(b_slist_t *l);
 
