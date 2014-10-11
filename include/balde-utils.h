@@ -10,5 +10,6 @@
 #define _BALDE_UTILS_H
 
 #include <balde-utils/string_utils.h>
+#include <balde-utils/slist.h>
 
 #endif /* _BALDE_UTILS_H */
