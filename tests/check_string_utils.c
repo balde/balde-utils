@@ -117,6 +117,18 @@ test_str_split(void **state)
 
 
 static void
+test_str_replace(void **state)
+{
+    char *str = b_str_replace("bolao", 'o', "zaz");
+    assert_string_equal(str, "bzazlazaz");
+    free(str);
+    str = b_str_replace("bolao", 'b', "zaz");
+    assert_string_equal(str, "zazolao");
+    free(str);
+}
+
+
+static void
 test_strv_join(void **state)
 {
     const char *pieces[] = {"guda","bola", "chunda", NULL};
@@ -355,6 +367,7 @@ main(void)
         unit_test(test_str_ends_with),
         unit_test(test_str_strip),
         unit_test(test_str_split),
+        unit_test(test_str_replace),
         unit_test(test_strv_join),
         unit_test(test_strv_length),
         unit_test(test_string_new),

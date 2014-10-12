@@ -225,6 +225,18 @@ b_str_split(const char *str, char c, unsigned int max_pieces)
 }
 
 
+char*
+b_str_replace(const char *str, const char search, const char *replace)
+{
+    char **pieces = b_str_split(str, search, 0);
+    if (pieces == NULL)
+        return NULL;
+    char* rv = b_strv_join((const char**) pieces, replace);
+    b_strv_free(pieces);
+    return rv;
+}
+
+
 void
 b_strv_free(char **strv)
 {
