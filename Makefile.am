@@ -25,7 +25,8 @@ include_HEADERS = \
 
 pkginclude_HEADERS = \
 	include/balde-utils/string_utils.h \
-	include/balde-utils/slist.h
+	include/balde-utils/slist.h \
+	include/balde-utils/trie.h
 
 noinst_HEADERS =
 
@@ -46,7 +47,8 @@ pkgconfig_DATA = balde-utils.pc
 
 src_libbalde_utils_la_SOURCES = \
 	src/string_utils.c \
-	src/slist.c
+	src/slist.c \
+	src/trie.c
 
 src_libbalde_utils_la_CFLAGS = \
 	$(AM_CFLAGS) \
@@ -85,7 +87,8 @@ if USE_CMOCKA
 
 check_PROGRAMS += \
 	tests/check_string_utils \
-	tests/check_slist
+	tests/check_slist \
+	tests/check_trie
 
 tests_check_string_utils_SOURCES = \
 	tests/check_string_utils.c
@@ -112,6 +115,20 @@ tests_check_slist_LDFLAGS = \
 	-no-install
 
 tests_check_slist_LDADD = \
+	$(CMOCKA_LIBS) \
+	src/libbalde_utils.la
+
+tests_check_trie_SOURCES = \
+	tests/check_trie.c
+
+tests_check_trie_CFLAGS = \
+	$(CMOCKA_CFLAGS) \
+	-I$(top_srcdir)/include
+
+tests_check_trie_LDFLAGS = \
+	-no-install
+
+tests_check_trie_LDADD = \
 	$(CMOCKA_LIBS) \
 	src/libbalde_utils.la
 

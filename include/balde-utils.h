@@ -11,5 +11,6 @@
 
 #include <balde-utils/string_utils.h>
 #include <balde-utils/slist.h>
+#include <balde-utils/trie.h>
 
 #endif /* _BALDE_UTILS_H */
