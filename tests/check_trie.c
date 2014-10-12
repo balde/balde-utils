@@ -231,6 +231,30 @@ test_insert(void **state)
 
 
 static void
+test_keep_data(void **state)
+{
+    b_trie_t *trie = b_trie_new(NULL);
+
+    char *t1 = "guda";
+    char *t2 = "nda";
+    char *t3 = "aba";
+    char *t4 = "haha";
+
+    b_trie_insert(trie, "bola", t1);
+    b_trie_insert(trie, "chu", t2);
+    b_trie_insert(trie, "bote", t3);
+    b_trie_insert(trie, "bo", t4);
+
+    b_trie_free(trie);
+
+    assert_string_equal(t1, "guda");
+    assert_string_equal(t2, "nda");
+    assert_string_equal(t3, "aba");
+    assert_string_equal(t4, "haha");
+}
+
+
+static void
 test_lookup(void **state)
 {
     b_trie_t *trie = b_trie_new(free);
@@ -306,6 +330,7 @@ main(void)
     const UnitTest tests[] = {
         unit_test(test_new),
         unit_test(test_insert),
+        unit_test(test_keep_data),
         unit_test(test_lookup),
         unit_test(test_size),
         unit_test(test_foreach),

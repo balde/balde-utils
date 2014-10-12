@@ -29,7 +29,7 @@ b_trie_free_node(b_trie_t *trie, b_trie_node_t *node)
 {
     if (node == NULL)
         return;
-    if (node->data != NULL)
+    if (node->data != NULL && trie->free_func != NULL)
         trie->free_func(node->data);
     b_trie_free_node(trie, node->next);
     b_trie_free_node(trie, node->child);
