@@ -272,6 +272,25 @@ test_lookup(void **state)
     assert_null(b_trie_lookup(trie, "arcoiro"));
 
     b_trie_free(trie);
+
+    trie = b_trie_new(free);
+
+    b_trie_insert(trie, "chu", b_strdup("nda"));
+    b_trie_insert(trie, "bola", b_strdup("guda"));
+    b_trie_insert(trie, "bote", b_strdup("aba"));
+    b_trie_insert(trie, "bo", b_strdup("haha"));
+    b_trie_insert(trie, "copa", b_strdup("bu"));
+    b_trie_insert(trie, "b", b_strdup("c"));
+    b_trie_insert(trie, "test", b_strdup("asd"));
+
+    assert_string_equal(b_trie_lookup(trie, "bola"), "guda");
+    assert_string_equal(b_trie_lookup(trie, "chu"), "nda");
+    assert_string_equal(b_trie_lookup(trie, "bote"), "aba");
+    assert_string_equal(b_trie_lookup(trie, "bo"), "haha");
+
+    assert_null(b_trie_lookup(trie, "arcoiro"));
+
+    b_trie_free(trie);
 }
 
 
@@ -286,6 +305,21 @@ test_size(void **state)
     b_trie_insert(trie, "bo", b_strdup("haha"));
 
     assert_int_equal(b_trie_size(trie), 4);
+    assert_int_equal(b_trie_size(NULL), 0);
+
+    b_trie_free(trie);
+
+    trie = b_trie_new(free);
+
+    b_trie_insert(trie, "chu", b_strdup("nda"));
+    b_trie_insert(trie, "bola", b_strdup("guda"));
+    b_trie_insert(trie, "bote", b_strdup("aba"));
+    b_trie_insert(trie, "bo", b_strdup("haha"));
+    b_trie_insert(trie, "copa", b_strdup("bu"));
+    b_trie_insert(trie, "b", b_strdup("c"));
+    b_trie_insert(trie, "test", b_strdup("asd"));
+
+    assert_int_equal(b_trie_size(trie), 7);
     assert_int_equal(b_trie_size(NULL), 0);
 
     b_trie_free(trie);
