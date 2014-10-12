@@ -139,7 +139,7 @@ b_trie_size_node(b_trie_node_t *node, unsigned int *count)
         return;
 
     if (node->key == '\0')
-        *count = *count + 1;
+        (*count)++;
 
     b_trie_size_node(node->next, count);
     b_trie_size_node(node->child, count);

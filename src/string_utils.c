@@ -104,7 +104,7 @@ b_str_strip(char *str)
 {
     if (str == NULL)
         return str;
-    unsigned int i;
+    int i;
     size_t str_len = strlen(str);
     for (i = str_len - 1; i >= 0; i--) {
         if (!isspace(str[i])) {
