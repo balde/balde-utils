@@ -129,6 +129,104 @@ test_insert(void **state)
     assert_string_equal(trie->root->child->child->next->next->data, "haha");
 
     b_trie_free(trie);
+
+
+    trie = b_trie_new(free);
+
+    b_trie_insert(trie, "chu", b_strdup("nda"));
+    assert_true(trie->root->key == 'c');
+    assert_null(trie->root->data);
+    assert_true(trie->root->child->key == 'h');
+    assert_null(trie->root->child->data);
+    assert_true(trie->root->child->child->key == 'u');
+    assert_null(trie->root->child->child->data);
+    assert_true(trie->root->child->child->child->key == '\0');
+    assert_string_equal(trie->root->child->child->child->data, "nda");
+
+
+    b_trie_insert(trie, "bola", b_strdup("guda"));
+    assert_true(trie->root->key == 'c');
+    assert_null(trie->root->data);
+    assert_true(trie->root->child->key == 'h');
+    assert_null(trie->root->child->data);
+    assert_true(trie->root->child->child->key == 'u');
+    assert_null(trie->root->child->child->data);
+    assert_true(trie->root->child->child->child->key == '\0');
+    assert_string_equal(trie->root->child->child->child->data, "nda");
+
+    assert_true(trie->root->next->key == 'b');
+    assert_null(trie->root->next->data);
+    assert_true(trie->root->next->child->key == 'o');
+    assert_null(trie->root->next->child->data);
+    assert_true(trie->root->next->child->child->key == 'l');
+    assert_null(trie->root->next->child->child->data);
+    assert_true(trie->root->next->child->child->child->key == 'a');
+    assert_null(trie->root->next->child->child->child->data);
+    assert_true(trie->root->next->child->child->child->child->key == '\0');
+    assert_string_equal(trie->root->next->child->child->child->child->data, "guda");
+
+
+    b_trie_insert(trie, "bote", b_strdup("aba"));
+    assert_true(trie->root->key == 'c');
+    assert_null(trie->root->data);
+    assert_true(trie->root->child->key == 'h');
+    assert_null(trie->root->child->data);
+    assert_true(trie->root->child->child->key == 'u');
+    assert_null(trie->root->child->child->data);
+    assert_true(trie->root->child->child->child->key == '\0');
+    assert_string_equal(trie->root->child->child->child->data, "nda");
+
+    assert_true(trie->root->next->key == 'b');
+    assert_null(trie->root->next->data);
+    assert_true(trie->root->next->child->key == 'o');
+    assert_null(trie->root->next->child->data);
+    assert_true(trie->root->next->child->child->key == 'l');
+    assert_null(trie->root->next->child->child->data);
+    assert_true(trie->root->next->child->child->child->key == 'a');
+    assert_null(trie->root->next->child->child->child->data);
+    assert_true(trie->root->next->child->child->child->child->key == '\0');
+    assert_string_equal(trie->root->next->child->child->child->child->data, "guda");
+
+    assert_true(trie->root->next->child->child->next->key == 't');
+    assert_null(trie->root->next->child->child->next->data);
+    assert_true(trie->root->next->child->child->next->child->key == 'e');
+    assert_null(trie->root->next->child->child->next->child->data);
+    assert_true(trie->root->next->child->child->next->child->child->key == '\0');
+    assert_string_equal(trie->root->next->child->child->next->child->child->data, "aba");
+
+
+    b_trie_insert(trie, "bo", b_strdup("haha"));
+    assert_true(trie->root->key == 'c');
+    assert_null(trie->root->data);
+    assert_true(trie->root->child->key == 'h');
+    assert_null(trie->root->child->data);
+    assert_true(trie->root->child->child->key == 'u');
+    assert_null(trie->root->child->child->data);
+    assert_true(trie->root->child->child->child->key == '\0');
+    assert_string_equal(trie->root->child->child->child->data, "nda");
+
+    assert_true(trie->root->next->key == 'b');
+    assert_null(trie->root->next->data);
+    assert_true(trie->root->next->child->key == 'o');
+    assert_null(trie->root->next->child->data);
+    assert_true(trie->root->next->child->child->key == 'l');
+    assert_null(trie->root->next->child->child->data);
+    assert_true(trie->root->next->child->child->child->key == 'a');
+    assert_null(trie->root->next->child->child->child->data);
+    assert_true(trie->root->next->child->child->child->child->key == '\0');
+    assert_string_equal(trie->root->next->child->child->child->child->data, "guda");
+
+    assert_true(trie->root->next->child->child->next->key == 't');
+    assert_null(trie->root->next->child->child->next->data);
+    assert_true(trie->root->next->child->child->next->child->key == 'e');
+    assert_null(trie->root->next->child->child->next->child->data);
+    assert_true(trie->root->next->child->child->next->child->child->key == '\0');
+    assert_string_equal(trie->root->next->child->child->next->child->child->data, "aba");
+
+    assert_true(trie->root->next->child->child->next->next->key == '\0');
+    assert_string_equal(trie->root->next->child->child->next->next->data, "haha");
+
+    b_trie_free(trie);
 }
 
 
@@ -171,8 +269,8 @@ test_size(void **state)
 
 
 static unsigned int counter;
-static char *expected_keys[] = {"bola", "bote", "bo", "chu"};
-static char *expected_datas[] = {"guda", "aba", "haha", "nda"};
+static char *expected_keys[] = {"chu", "copa", "bola", "bote", "bo", "b", "test"};
+static char *expected_datas[] = {"nda", "bu", "guda", "aba", "haha", "c", "asd"};
 
 static void
 mock_foreach(const char *key, void *data)
@@ -187,10 +285,13 @@ test_foreach(void **state)
 {
     b_trie_t *trie = b_trie_new(free);
 
-    b_trie_insert(trie, "bola", b_strdup("guda"));
     b_trie_insert(trie, "chu", b_strdup("nda"));
+    b_trie_insert(trie, "bola", b_strdup("guda"));
     b_trie_insert(trie, "bote", b_strdup("aba"));
     b_trie_insert(trie, "bo", b_strdup("haha"));
+    b_trie_insert(trie, "copa", b_strdup("bu"));
+    b_trie_insert(trie, "b", b_strdup("c"));
+    b_trie_insert(trie, "test", b_strdup("asd"));
 
     counter = 0;
     b_trie_foreach(trie, mock_foreach);
