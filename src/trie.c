@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include <balde-utils/string_utils.h>
 #include <balde-utils/trie.h>
 
 
@@ -99,4 +100,96 @@ clean:
         }
         key++;
     }
+}
+
+
+void*
+b_trie_lookup(b_trie_t *trie, const char *key)
+{
+    if (trie->root == NULL || key == NULL)
+        return NULL;
+
+    b_trie_node_t *parent = trie->root;
+    b_trie_node_t *tmp;
+    while (1) {
+        for (tmp = parent; tmp != NULL; tmp = tmp->next) {
+
+            if (tmp->key == *key) {
+                if (tmp->key == '\0')
+                    return tmp->data;
+                parent = tmp->child;
+                break;
+            }
+        }
+        if (tmp == NULL)
+            return NULL;
+
+        if (*key == '\0')
+            break;
+        key++;
+    }
+    return NULL;
+}
+
+
+static void
+b_trie_size_node(b_trie_node_t *node, unsigned int *count)
+{
+    if (node == NULL)
+        return;
+
+    if (node->key == '\0')
+        *count = *count + 1;
+
+    b_trie_size_node(node->next, count);
+    b_trie_size_node(node->child, count);
+}
+
+
+unsigned int
+b_trie_size(b_trie_t *trie)
+{
+    if (trie == NULL)
+        return 0;
+
+    unsigned int count = 0;
+    b_trie_size_node(trie->root, &count);
+    return count;
+}
+
+
+static void
+b_trie_foreach_node(b_trie_node_t *node, b_string_t *str, void (*func)(const char *key, void *data))
+{
+    if (node == NULL)
+        return;
+
+    if (node->key == '\0') {
+        func(str->str, node->data);
+        b_string_free(str, true);
+    }
+
+    if (node->child != NULL) {
+        b_string_t *child = b_string_new();
+        child = b_string_append(child, str->str);
+        child = b_string_append_c(child, node->key);
+        b_trie_foreach_node(node->child, child, func);
+    }
+
+    if (node->next != NULL)
+        b_trie_foreach_node(node->next, str, func);
+
+    if (node->child != NULL && node->next == NULL)
+        b_string_free(str, true);
+}
+
+
+void
+b_trie_foreach(b_trie_t *trie, void (*func)(const char *key, void *data))
+{
+    if (trie->root == NULL)
+        return;
+
+    b_string_t *str = b_string_new();
+    b_trie_foreach_node(trie->root, str, func);
 }

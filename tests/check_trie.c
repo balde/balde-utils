@@ -132,12 +132,82 @@ test_insert(void **state)
 }
 
 
+static void
+test_lookup(void **state)
+{
+    b_trie_t *trie = b_trie_new(free);
+
+    b_trie_insert(trie, "bola", b_strdup("guda"));
+    b_trie_insert(trie, "chu", b_strdup("nda"));
+    b_trie_insert(trie, "bote", b_strdup("aba"));
+    b_trie_insert(trie, "bo", b_strdup("haha"));
+
+    assert_string_equal(b_trie_lookup(trie, "bola"), "guda");
+    assert_string_equal(b_trie_lookup(trie, "chu"), "nda");
+    assert_string_equal(b_trie_lookup(trie, "bote"), "aba");
+    assert_string_equal(b_trie_lookup(trie, "bo"), "haha");
+
+    assert_null(b_trie_lookup(trie, "arcoiro"));
+
+    b_trie_free(trie);
+}
+
+
+static void
+test_size(void **state)
+{
+    b_trie_t *trie = b_trie_new(free);
+
+    b_trie_insert(trie, "bola", b_strdup("guda"));
+    b_trie_insert(trie, "chu", b_strdup("nda"));
+    b_trie_insert(trie, "bote", b_strdup("aba"));
+    b_trie_insert(trie, "bo", b_strdup("haha"));
+
+    assert_int_equal(b_trie_size(trie), 4);
+    assert_int_equal(b_trie_size(NULL), 0);
+
+    b_trie_free(trie);
+}
+
+
+static unsigned int counter;
+static char *expected_keys[] = {"bola", "bote", "bo", "chu"};
+static char *expected_datas[] = {"guda", "aba", "haha", "nda"};
+
+static void
+mock_foreach(const char *key, void *data)
+{
+    assert_string_equal(key, expected_keys[counter]);
+    assert_string_equal((char*) data, expected_datas[counter++]);
+}
+
+
+static void
+test_foreach(void **state)
+{
+    b_trie_t *trie = b_trie_new(free);
+
+    b_trie_insert(trie, "bola", b_strdup("guda"));
+    b_trie_insert(trie, "chu", b_strdup("nda"));
+    b_trie_insert(trie, "bote", b_strdup("aba"));
+    b_trie_insert(trie, "bo", b_strdup("haha"));
+
+    counter = 0;
+    b_trie_foreach(trie, mock_foreach);
+
+    b_trie_free(trie);
+}
+
+
 int
 main(void)
 {
     const UnitTest tests[] = {
         unit_test(test_new),
         unit_test(test_insert),
+        unit_test(test_lookup),
+        unit_test(test_size),
+        unit_test(test_foreach),
     };
     return run_tests(tests);
 }

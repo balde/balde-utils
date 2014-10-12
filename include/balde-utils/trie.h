@@ -23,5 +23,8 @@ typedef struct _b_trie_t {
 b_trie_t* b_trie_new(void (*free_func)(void *ptr));
 void b_trie_free(b_trie_t *trie);
 void b_trie_insert(b_trie_t *trie, const char *key, void *data);
+void* b_trie_lookup(b_trie_t *trie, const char *key);
+unsigned int b_trie_size(b_trie_t *trie);
+void b_trie_foreach(b_trie_t *trie, void (*func)(const char *key, void *data));
 
 #endif /* _BALDE_UTILS__TRIE_H */
