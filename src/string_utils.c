@@ -205,6 +205,10 @@ b_string_new(void)
     rv->str = NULL;
     rv->len = 0;
     rv->allocated_len = 0;
+
+    // initialize with empty string
+    rv = b_string_append(rv, "");
+
     return rv;
 }
 

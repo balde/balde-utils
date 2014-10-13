@@ -136,7 +136,9 @@ test_strv_join(void **state)
     assert_string_equal(str, "guda:bola:chunda");
     free(str);
     const char *pieces2[] = {NULL};
-    assert_null(b_strv_join(pieces2, ":"));
+    str = b_strv_join(pieces2, ":");
+    assert_string_equal(str, "");
+    free(str);
     assert_null(b_strv_join(NULL, ":"));
 }
 
@@ -157,9 +159,9 @@ test_string_new(void **state)
 {
     b_string_t *str = b_string_new();
     assert_non_null(str);
-    assert_null(str->str);
+    assert_string_equal(str->str, "");
     assert_int_equal(str->len, 0);
-    assert_int_equal(str->allocated_len, 0);
+    assert_int_equal(str->allocated_len, B_STRING_CHUNK_SIZE);
     assert_null(b_string_free(str, true));
 }
 
@@ -168,6 +170,7 @@ static void
 test_string_free(void **state)
 {
     b_string_t *str = b_string_new();
+    free(str->str);
     str->str = b_strdup("bola");
     str->len = 4;
     str->allocated_len = B_STRING_CHUNK_SIZE;
