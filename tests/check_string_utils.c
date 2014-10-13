@@ -146,9 +146,9 @@ test_strv_join(void **state)
 static void
 test_strv_length(void **state)
 {
-    const char *pieces[] = {"guda","bola", "chunda", NULL};
+    char *pieces[] = {"guda","bola", "chunda", NULL};
     assert_int_equal(b_strv_length(pieces), 3);
-    const char *pieces2[] = {NULL};
+    char *pieces2[] = {NULL};
     assert_int_equal(b_strv_length(pieces2), 0);
     assert_int_equal(b_strv_length(NULL), 0);
 }
