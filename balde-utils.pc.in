@@ -4,7 +4,7 @@ libdir=@libdir@
 includedir=@includedir@
 
 Name: @PACKAGE@
-Description: A general purpose utility library for C. 
+Description: A general purpose utility library for C.
 Version: @VERSION@
 Requires:
 Libs: -L${libdir} -lbalde_utils
