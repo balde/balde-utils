@@ -35,11 +35,14 @@ b_strndup(const char *s, size_t n)
 {
     if (!s)
         return NULL;
-    char *tmp = malloc(n + 1);
+    size_t l = strlen(s);
+    if (l > n)
+        l = n;
+    char *tmp = malloc(l + 1);
     if (!tmp)
         return NULL;
-    strncpy(tmp, s, n + 1);
-    tmp[n] = '\0';
+    memcpy(tmp, s, l + 1);
+    tmp[l] = '\0';
     return tmp;
 }
 
