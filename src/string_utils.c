@@ -19,11 +19,11 @@
 char*
 b_strdup(const char *s)
 {
-    if (!s)
+    if (s == NULL)
         return NULL;
     size_t l = strlen(s);
     char *tmp = malloc(l + 1);
-    if (!tmp)
+    if (tmp == NULL)
         return NULL;
     memcpy(tmp, s, l + 1);
     return tmp;
@@ -33,15 +33,13 @@ b_strdup(const char *s)
 char*
 b_strndup(const char *s, size_t n)
 {
-    if (!s)
+    if (s == NULL)
         return NULL;
-    size_t l = strlen(s);
-    if (l > n)
-        l = n;
+    size_t l = strnlen(s, n);
     char *tmp = malloc(l + 1);
-    if (!tmp)
+    if (tmp == NULL)
         return NULL;
-    memcpy(tmp, s, l + 1);
+    memcpy(tmp, s, l);
     tmp[l] = '\0';
     return tmp;
 }
