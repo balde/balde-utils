@@ -1,5 +1,7 @@
 ## Autotools settings
 
+include balde-utils.mk
+
 ACLOCAL_AMFLAGS = -I m4
 
 AM_DISTCHECK_CONFIGURE_FLAGS = \
@@ -20,13 +22,9 @@ CLEANFILES =
 BUILT_SOURCES = \
 	.version
 
-include_HEADERS = \
-	include/balde-utils.h
+include_HEADERS = $(BALDE_UTILS_HEADERS_)
 
-pkginclude_HEADERS = \
-	include/balde-utils/string_utils.h \
-	include/balde-utils/slist.h \
-	include/balde-utils/trie.h
+pkginclude_HEADERS = $(BALDE_UTILS_PKG_HEADERS_)
 
 noinst_HEADERS =
 
@@ -45,10 +43,7 @@ pkgconfig_DATA = balde-utils.pc
 
 ## Build rules: libbalde_utils
 
-src_libbalde_utils_la_SOURCES = \
-	src/string_utils.c \
-	src/slist.c \
-	src/trie.c
+src_libbalde_utils_la_SOURCES = $(BALDE_UTILS_SOURCES_)
 
 src_libbalde_utils_la_CFLAGS = \
 	$(AM_CFLAGS) \
